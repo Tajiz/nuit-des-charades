@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Les Charades de la Nuit d’Halloween</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Creepster&family=IM+Fell+English&display=swap">
+<style>
+:root{--bg:#07040c;--fg:#e9e2f0;--orange:#ff7a1a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:radial-gradient(ellipse at 50% 0%,#2a1245 0%,#0d0716 45%,var(--bg) 100%) fixed;color:var(--fg);font-family:'IM Fell English',Georgia,serif;text-align:center;overflow-x:hidden}
+.moon{position:fixed;top:4%;right:8%;width:90px;height:90px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff6d6,#e8d58a 60%,#b9a24f);box-shadow:0 0 60px 20px rgba(255,235,150,.25);opacity:.85;z-index:0}
+.fog{position:fixed;left:-50%;bottom:0;width:200%;height:30%;background:radial-gradient(ellipse at 50% 100%,rgba(150,120,200,.25),transparent 70%);animation:drift 14s ease-in-out infinite alternate;z-index:0;pointer-events:none}
+@keyframes drift{to{transform:translateX(15%)}}
+.bat{position:fixed;font-size:28px;z-index:1;pointer-events:none;animation:fly linear infinite;opacity:.8}
+@keyframes fly{from{transform:translateX(-10vw) translateY(0)}50%{transform:translateX(50vw) translateY(-40px)}to{transform:translateX(110vw) translateY(20px)}}
+main{position:relative;z-index:2;max-width:760px;margin:0 auto;padding:28px 18px 60px}
+h1{font-family:'Creepster',cursive,fantasy;font-weight:400;font-size:clamp(2.2rem,8vw,4.2rem);margin:.2em 0;color:var(--orange);text-shadow:0 0 18px rgba(255,122,26,.6),3px 3px 0 #3a0a52;animation:flick 5s infinite}
+@keyframes flick{0%,92%,100%{opacity:1}93%{opacity:.4}95%{opacity:1}97%{opacity:.6}}
+.sub{opacity:.8;margin-bottom:26px;font-style:italic}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:480px){.grid{grid-template-columns:1fr}}
+.btn{font-family:'Creepster',cursive,fantasy;font-size:1.6rem;letter-spacing:1px;padding:26px 10px;border-radius:14px;border:2px solid var(--c);background:linear-gradient(160deg,rgba(0,0,0,.55),rgba(0,0,0,.85));color:var(--c);cursor:pointer;box-shadow:0 0 18px var(--c),inset 0 0 14px rgba(0,0,0,.7);transition:transform .2s,box-shadow .2s,background .2s}
+.btn:hover,.btn:focus-visible{transform:translateY(-4px) rotate(-1deg);box-shadow:0 0 38px var(--c),inset 0 0 18px var(--c);background:rgba(0,0,0,.6);outline:none}
+.btn small{display:block;font-family:'IM Fell English',serif;font-size:.9rem;opacity:.7;margin-top:6px}
+#card{display:none;margin-top:10px;padding:28px 22px;border:2px solid var(--c);border-radius:16px;background:rgba(5,2,10,.85);box-shadow:0 0 40px var(--c);animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px) scale(.97)}}
+#card h2{font-family:'Creepster',cursive,fantasy;font-weight:400;font-size:2.2rem;color:var(--c);margin:0 0 14px;text-shadow:0 0 12px var(--c)}
+#card p{font-size:clamp(1.05rem,3.6vw,1.35rem);line-height:1.7;margin:0;text-transform:uppercase;letter-spacing:.5px}
+.row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+.small{font-family:'IM Fell English',serif;font-size:1rem;padding:10px 18px;border-radius:999px;border:1px solid var(--fg);background:transparent;color:var(--fg);cursor:pointer}
+.small:hover{background:rgba(255,255,255,.12)}
+#music{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));left:10px;z-index:5}
+</style>
+</head>
+<body>
+<div class="moon"></div><div class="fog"></div>
+<span class="bat" style="top:12%;animation-duration:16s">🦇</span>
+<span class="bat" style="top:28%;animation-duration:23s;animation-delay:-8s">🦇</span>
+<span class="bat" style="top:55%;animation-duration:19s;animation-delay:-3s;font-size:20px">🦇</span>
+<button id="music" class="small">🎵 Musique : OFF</button>
+<main>
+  <h1>🎃 La Nuit des Charades 🕸️</h1>
+  <p class="sub">Choisis ta couleur, si tu l’oses… un objet a disparu dans la nuit d’Halloween.</p>
+  <div id="menu" class="grid">
+    <button class="btn" style="--c:#3da5ff" data-k="bleu">🕷️ Charade Bleu<small>L’araignée du grenier</small></button>
+    <button class="btn" style="--c:#b46bff" data-k="violet">🧙 Charade Violette<small>Le sorcier égaré</small></button>
+    <button class="btn" style="--c:#ffd93a" data-k="jaune">👻 Charade Jaune<small>Le fantôme guitariste</small></button>
+    <button class="btn" style="--c:#ff3b3b" data-k="rouge">🧛 Charade Rouge<small>Le vampire rockeur</small></button>
+  </div>
+  <section id="card" aria-live="polite">
+    <h2 id="ct"></h2><p id="cp"></p>
+    <div class="row"><button class="small" id="back">⬅ Retour aux charades</button></div>
+  </section>
+</main>
+<script>
+const C={
+violet:{t:'Charade Violette',c:'#b46bff',x:'Dans la nuit d’Halloween<br>je me glisse entre les doigts d’un musicien.<br>Je gratte les cordes sans avoir de griffes.<br>Je suis petit, plat, et parfois coloré.<br>Qui suis-je, que le sorcier a égaré ?'},
+jaune:{t:'Charade Jaune',c:'#ffd93a',x:'Boo ! C’est le fantôme qui aime la guitare,<br>mais celui-ci a besoin de mon pouvoir,<br>car sans moi elle reste silencieuse.<br>Je glisse sur la guitare sans avoir de pieds.<br>Je suis petit, plat et facile à cacher.<br>Qui suis-je, que le fantôme doit retrouver ?'},
+bleu:{t:'Charade Bleu',c:'#3da5ff',x:'Une araignée a tissé sa toile près d’un vieux grenier.<br>Elle m’a vu faire résonner la guitare<br>et m’a pris pour un morceau de trésor bizarre.<br>Je suis plat, petit et facile à égarer,<br>mais je ne suis pas insecte :<br>car entre les doigts du guitariste, je deviens un outil de fête.<br>J’accompagne l’araignée dans ses mélodies.<br>Qui suis-je, petit objet caché dans la nuit ?'},
+rouge:{t:'Charade Rouge',c:'#ff3b3b',x:'Le vampire adore le rock et les solos endiablés.<br>Il joue jusqu’à ce que minuit sonne.<br>Je l’aide à jouer jusqu’au petit matin.<br>Il me tient entre ses doigts pour gratter.<br>Je ne mords personne, malgré mes pointes parfois acérées.<br>Je suis petit, plat et parfois coloré.<br>Qui suis-je, que le vampire a égaré ?'}
+};
+const $=id=>document.getElementById(id),card=$('card'),menu=$('menu');
+document.querySelectorAll('.btn').forEach(b=>b.onclick=()=>{
+  const d=C[b.dataset.k];card.style.setProperty('--c',d.c);
+  $('ct').textContent=d.t;$('cp').innerHTML=d.x;
+  menu.style.display='none';card.style.display='block';
+  card.scrollIntoView({behavior:'smooth',block:'start'});
+});
+$('back').onclick=()=>{card.style.display='none';menu.style.display='grid'};
+
+/* Valse « boîte à musique » façon conte gothique, synthétisée en direct */
+let ctx,timer,on=false,nextT=0,bar=0;
+const M=[[76,74,72,71,69,71],[72,76,69,72,71,68],[77,76,74,72,74,77],[76,74,71,68,71,76],
+[76,74,72,71,69,71],[72,76,69,72,71,68],[77,76,72,69,68,71],[69,0,72,0,76,0]];
+const B=[45,45,50,52,45,45,41,45], CH=[[57,60,64],[57,60,64],[62,65,69],[56,59,64],[57,60,64],[57,60,64],[53,57,60],[57,60,64]];
+const hz=n=>440*Math.pow(2,(n-69)/12), E=60/150/2;
+function note(n,t,d,type,vol,dest){
+  const o=ctx.createOscillator(),g=ctx.createGain();o.type=type;o.frequency.value=hz(n);
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+d);
+  o.connect(g);g.connect(dest);o.start(t);o.stop(t+d+.05);
+}
+function sched(){
+  while(nextT<ctx.currentTime+.3){
+    const i=bar%8,t=nextT;
+    M[i].forEach((n,k)=>{if(n){note(n,t+k*E,.9,'sine',.09,mix);note(n+12,t+k*E,.5,'sine',.025,mix)}});
+    note(B[i],t,E*5,'triangle',.16,mix);
+    [2,4].forEach(k=>CH[i].forEach(n=>note(n,t+k*E,E*1.6,'triangle',.035,mix)));
+    nextT+=E*6;bar++;
+  }
+}
+let mix;
+function start(){
+  if(!ctx){ctx=new (window.AudioContext||window.webkitAudioContext)();
+    mix=ctx.createGain();mix.gain.value=.9;
+    const dl=ctx.createDelay(1);dl.delayTime.value=.33;const fb=ctx.createGain();fb.gain.value=.38;
+    mix.connect(ctx.destination);mix.connect(dl);dl.connect(fb);fb.connect(dl);dl.connect(ctx.destination);}
+  ctx.resume();nextT=ctx.currentTime+.1;bar=0;timer=setInterval(sched,100);on=true;
+  $('music').textContent='🎵 Musique : ON';
+}
+function stop(){clearInterval(timer);if(ctx)ctx.suspend();on=false;$('music').textContent='🎵 Musique : OFF'}
+$('music').onclick=()=>on?stop():start();
+</script>
+</body>
+</html>
